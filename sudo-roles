@@ -8,6 +8,11 @@ User_Alias APP_OPS = app_ops
 User_Alias READERS = readers, vtse
 
 #
+# Run-as users
+#
+Runas_Alias DB_USER = postgres
+
+#
 # Classes of commands
 #
 Cmnd_Alias SYSTEM_OPS = /usr/sbin/service, \
@@ -25,6 +30,8 @@ Cmnd_Alias APP_OPS = /usr/sbin/service postgresql, \
                      /usr/bin/gem, \
                      /usr/local/bin/bundler
 
+Cmnd_Alias SQL_JOBS = /usr/bin/psql -c *
+
 Cmnd_Alias READ_OPS = /usr/bin/less, \
                       /bin/less, \
                       /bin/more, \
@@ -40,6 +47,8 @@ Cmnd_Alias READ_OPS = /usr/bin/less, \
 SYS_OPS ALL=(ALL) NOPASSWD: PG_OPS, SYSTEM_OPS
 
 APP_OPS ALL=(ALL) NOPASSWD: APP_OPS
+
+APP_OPS ALL=(DB_USER) NOPASSWD: SQL_JOBS
 
 # everyone can read
 SYS_OPS ALL=(ALL) NOPASSWD:NOEXEC: READ_OPS
