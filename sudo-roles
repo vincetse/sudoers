@@ -1,0 +1,47 @@
+#
+# User roles
+#
+User_Alias SYS_OPS = sys_ops
+
+User_Alias APP_OPS = app_ops
+
+User_Alias READERS = readers, vtse
+
+#
+# Classes of commands
+#
+Cmnd_Alias SYSTEM_OPS = /usr/sbin/service, \
+                        /sbin/shutdown, \
+                        /sbin/reboot, \
+                        /usr/bin/apt-get, \
+                        /usr/bin/vi /etc/postgresql/9.?/main/*
+
+Cmnd_Alias PG_OPS = /usr/bin/pg_*, \
+                    /usr/sbin/service postgresql *, \
+                    /usr/bin/vi /etc/postgresql/9.?/main/postgresql.conf
+
+Cmnd_Alias APP_OPS = /usr/sbin/service postgresql, \
+                     /usr/bin/apt-get, \
+                     /usr/bin/gem, \
+                     /usr/local/bin/bundler
+
+Cmnd_Alias READ_OPS = /usr/bin/less, \
+                      /bin/less, \
+                      /bin/more, \
+                      /bin/zless, \
+                      /bin/grep, \
+                      /bin/zgrep, \
+                      /bin/cat, \
+                      /bin/gunzip
+
+#
+# Group permissions
+#
+SYS_OPS ALL=(ALL) NOPASSWD: PG_OPS, SYSTEM_OPS
+
+APP_OPS ALL=(ALL) NOPASSWD: APP_OPS
+
+# everyone can read
+SYS_OPS ALL=(ALL) NOPASSWD:NOEXEC: READ_OPS
+APP_OPS ALL=(ALL) NOPASSWD:NOEXEC: READ_OPS
+READERS ALL=(ALL) NOPASSWD:NOEXEC: READ_OPS
